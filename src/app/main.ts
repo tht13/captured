@@ -1,4 +1,4 @@
-import { getCurrentLocation, getRandom, offsetLocation } from "./location.js";
+import { getCurrentLocation, getRandom, offsetLocation, getLatestServerLocation } from "./location.js";
 
 let map: google.maps.Map;
 async function initMap(): Promise<void> {
@@ -8,21 +8,42 @@ async function initMap(): Promise<void> {
         center: { lat: currentPos.latitude, lng: currentPos.longitude }
     });
 
-    const offsetPos: Coordinates = offsetLocation(currentPos, getRandom(0, 150), getRandom(0, 360));
-    const positionCircle: google.maps.Circle = new google.maps.Circle({
+    const circlePos: Coordinates = await getLatestServerLocation();
+    const offsetPos: Coordinates = offsetLocation(circlePos, getRandom(0, 150), getRandom(0, 360));
+    setApproxCircle(offsetPos);
+    setCurrentPoint(currentPos);
+}
+// tslint:disable-next-line:no-string-literal
+(window as any)["initMap"] = initMap;
+
+
+function setApproxCircle(coords: Coordinates): google.maps.Circle {
+    return new google.maps.Circle({
         strokeColor: "white",
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: "blue",
         fillOpacity: 0.3,
         map,
-        center: { lat: offsetPos.latitude, lng: offsetPos.longitude },
+        center: { lat: coords.latitude, lng: coords.longitude },
         radius: 200
     });
 }
-// tslint:disable-next-line:no-string-literal
-(window as any)["initMap"] = initMap;
 
+function setCurrentPoint(coords: Coordinates): google.maps.Marker {
+    return new google.maps.Marker({
+        position: { lat: coords.latitude, lng: coords.longitude },
+        icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 5,
+            fillColor: "blue",
+            fillOpacity: .8,
+            strokeColor: "white",
+            strokeWeight: .5
+        },
+        map: map
+    });
+}
 
 function loadMapsJs(): void {
     var script: HTMLScriptElement = document.createElement("script");

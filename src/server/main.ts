@@ -2,8 +2,8 @@ import * as express from "express";
 import { join, normalize } from "path";
 
 interface ILocation {
-    x: number;
-    y: number;
+    lng: number;
+    lat: number;
     time: Date;
 }
 
@@ -13,7 +13,11 @@ function fileFromRoot(...path: string[]): string {
 
 class Server {
     private app: express.Application;
-    private latestLocation: ILocation;
+    private latestLocation: ILocation = {
+        lng: -1.578,
+        lat: 52.353,
+        time: new Date()
+    };
 
     constructor() {
         this.app = express();
@@ -21,21 +25,24 @@ class Server {
     }
 
     public addRoutes(): void {
-        this.app.get("/addLocation", (req, res) => {
+        this.app.get("/location/add", (req, res) => {
             const location: ILocation = {
-                x: req.params.x,
-                y: req.params.y,
+                lng: req.params.lng,
+                lat: req.params.lat,
                 time: new Date()
             };
             this.addLocation(location);
+        });
+        this.app.get("/location", (req, res) => {
+            res.json(this.latestLocation);
         });
         this.app.use(express.static(fileFromRoot("node_modules")));
         this.app.use(express.static(fileFromRoot("public")));
         this.app.use("/dist/app", express.static(fileFromRoot("dist", "app")));
         this.app.get("/node_modules/material-components-web/dist/material-components-web.css",
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.css")));
-            this.app.get("/node_modules/material-components-web/dist/material-components-web.js",
-                (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.js")));
+        this.app.get("/node_modules/material-components-web/dist/material-components-web.js",
+            (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.js")));
         this.app.get("/", (req, res) => res.sendFile(fileFromRoot("public", "index.html")));
     }
 
