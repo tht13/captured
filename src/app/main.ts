@@ -1,37 +1,28 @@
-import { getCircle } from "./circle.js";
+import { getCurrentLocation, getRandom, offsetLocation } from "./location.js";
 
 let map: google.maps.Map;
-function initMap(): void {
+async function initMap(): Promise<void> {
+    const currentPos: Coordinates = (await getCurrentLocation()).coords;
     map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 2,
-        center: { lat: -33.865427, lng: 151.196123 },
-        mapTypeId: google.maps.MapTypeId.TERRAIN
+        zoom: 14,
+        center: { lat: currentPos.latitude, lng: currentPos.longitude }
     });
 
-    // create a <script> tag and set the USGS URL as the source.
-    var script: HTMLScriptElement = document.createElement("script");
-
-    // this example uses a local copy of the GeoJSON stored at
-    // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-    script.src = "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
-    document.getElementsByTagName("head")[0].appendChild(script);
-
-    map.data.setStyle(function (feature: google.maps.Data.Feature): google.maps.Data.StyleOptions {
-        var magnitude: number = feature.getProperty("mag");
-        return {
-            icon: getCircle(magnitude)
-        };
+    const offsetPos: Coordinates = offsetLocation(currentPos, getRandom(0, 150), getRandom(0, 360));
+    const positionCircle: google.maps.Circle = new google.maps.Circle({
+        strokeColor: "white",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "blue",
+        fillOpacity: 0.3,
+        map,
+        center: { lat: offsetPos.latitude, lng: offsetPos.longitude },
+        radius: 200
     });
 }
 // tslint:disable-next-line:no-string-literal
 (window as any)["initMap"] = initMap;
 
-function eqfeed_callback(results: google.maps.Data.Feature[]): void {
-    map.data.addGeoJson(results);
-}
-
-// tslint:disable-next-line:no-string-literal
-(window as any)["eqfeed_callback"] = eqfeed_callback;
 
 function loadMapsJs(): void {
     var script: HTMLScriptElement = document.createElement("script");
