@@ -60,7 +60,7 @@ class Server {
     }
 
     public start(): void {
-        this.app.listen(80);
+        this.app.listen(3000);
     }
 }
 
