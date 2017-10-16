@@ -37,13 +37,13 @@ class Server {
             res.json(this.latestLocation);
         });
         this.app.use(express.static(fileFromRoot("node_modules")));
-        this.app.use(express.static(fileFromRoot("public")));
+        this.app.use("/", express.static(fileFromRoot("public")));
         this.app.use("/dist/app", express.static(fileFromRoot("dist", "app")));
         this.app.get("/node_modules/material-components-web/dist/material-components-web.css",
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.css")));
         this.app.get("/node_modules/material-components-web/dist/material-components-web.js",
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.js")));
-        this.app.get("/", (req, res) => res.sendFile(fileFromRoot("public", "index.html")));
+        // this.app.get("/", (req, res) => res.sendFile(fileFromRoot("public", "index.html")));
     }
 
     private addLocation(location: ILocation): void {

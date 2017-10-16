@@ -2,44 +2,137 @@
 <html class="mdc-typography">
 
 <head>
-    <title>Material Components for the web</title>
+    <title>Kenilworth Society</title>
     <link rel="stylesheet" href="node_modules/material-components-web/dist/material-components-web.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <style>
-        /* Always set the map height explicitly to define the size of the div
-                 * element that contains the map. */
+        /* Ensure layout covers the entire screen. */
 
-        #map {
-            height: calc(100vh - 64px);
+        html {
+            height: 100%;
         }
 
-        /* Optional: Makes the sample page fill the window. */
+        /* Stack toolbar and content on top of each other. */
 
-        html,
-        body {
-            height: 100%;
-            margin: 0;
+        .body {
+            display: flex;
+            flex-direction: column;
             padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            min-height: 100%;
+        }
+
+        /* Place drawer and main next to each other. */
+
+        .content {
+            display: flex;
+            flex: 1 1 auto;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .main {
+            padding-left: 16px;
+        }
+
+        .extra-content-wrapper {
+            padding: 10px;
+        }
+
+        #extra-wide-content {
+            width: 200vw;
+        }
+
+        #extra-tall-content {
+            height: 200vh;
+        }
+
+        .mdc-card__media {
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 200px;
+            width: 200px;w
+        }
+
+        #castle .mdc-card__media {
+            background-image: url("/images/castle.jpg");
+        }
+
+        #coventry .mdc-card__media {
+            background-image: url("/images/coventry_group.jpg");
+        }
+
+        #rugby .mdc-card__media {
+            background-image: url("/images/rugby_group.jpg");
+        }
+
+        #creamed .mdc-card__media {
+            background-image: url("/images/creamed.png");
         }
     </style>
 </head>
 
 <body>
-    <header class="mdc-toolbar">
+    <header class="mdc-toolbar mdc-toolbar--fixed">
         <div class="mdc-toolbar__row">
             <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-                <a href="#" class="material-icons mdc-toolbar__icon--menu">menu</a>
-                <span class="mdc-toolbar__title">Captured</span>
+                <span class="catalog-back">
+                    <!-- <a href="/" class="mdc-toolbar__icon--menu"><i class="material-icons">&#xE5C4;</i></a> -->
+                </span>
+                <span class="mdc-toolbar__title catalog-title">Kenilworth Society</span>
             </section>
         </div>
     </header>
-    <div id="map"></div>
+
+    <div class="content mdc-toolbar-fixed-adjust">
+        <nav class="mdc-permanent-drawer">
+            <div class="mdc-list-group">
+                <nav class="mdc-list">
+                    <a class="mdc-list-item mdc-permanent-drawer--selected" href="/captured.html">
+                        <i class="material-icons mdc-list-item__start-detail" aria-hidden="true"></i>Captured
+                    </a>
+                </nav>
+            </div>
+        </nav>
+        <main class="main">
+            <div class="mdc-card" id="castle">
+                <section class="mdc-card__primary">
+                    <h1 class="mdc-card__title mdc-card__title--large"></h1>
+                    <h2 class="mdc-card__subtitle">Kenilworth</h2>
+                </section>
+                <section class="mdc-card__media"></section>
+            </div>
+            <div class="mdc-card" id="coventry">
+                <section class="mdc-card__primary">
+                    <h1 class="mdc-card__title mdc-card__title--large"></h1>
+                    <h2 class="mdc-card__subtitle">Coventry</h2>
+                </section>
+                <section class="mdc-card__media"></section>
+            </div>
+            <div class="mdc-card" id="creamed">
+                <section class="mdc-card__primary">
+                    <h1 class="mdc-card__title mdc-card__title--large"></h1>
+                    <h2 class="mdc-card__subtitle">Creamed</h2>
+                </section>
+                <section class="mdc-card__media"></section>
+            </div>
+            <div class="mdc-card" id="rugby">
+                <section class="mdc-card__primary">
+                    <h1 class="mdc-card__title mdc-card__title--large"></h1>
+                    <h2 class="mdc-card__subtitle">Rugby</h2>
+                </section>
+                <section class="mdc-card__media"></section>
+            </div>
+        </main>
+    </div>
 
     <script src="node_modules/material-components-web/dist/material-components-web.js"></script>
     <script>mdc.autoInit()</script>
 
-    <script type="module" src="./dist/app/main.js"> 
-    </script>
 </body>
 
 </html>
