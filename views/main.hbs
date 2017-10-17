@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html class="mdc-typography">
+
+<head>
+    <title>Kenilworth Society</title>
+    <link rel="stylesheet" href="node_modules/material-components-web/dist/material-components-web.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/style/main.css">
+
+</head>
+
+<body>
+    <header class="mdc-toolbar mdc-toolbar--fixed">
+        <div class="mdc-toolbar__row">
+            <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+                <span class="catalog-back">
+                    <a href="/" class="mdc-toolbar__icon--menu"><i class="material-icons">home</i></a>
+                </span>
+                <span class="mdc-toolbar__title catalog-title">Kenilworth Society</span>
+            </section>
+        </div>
+    </header>
+
+    <div class="content mdc-toolbar-fixed-adjust">
+        <nav class="mdc-permanent-drawer">
+            <div class="mdc-list-group">
+                <nav class="mdc-list">
+                    <a class="mdc-list-item mdc-permanent-drawer--selected" href="/captured">
+                        <i class="material-icons mdc-list-item__start-detail" aria-hidden="true"></i>Captured
+                    </a>
+                </nav>
+            </div>
+        </nav>
+
+        <main class="main">
+            {{{body}}}
+        </main>
+
+    </div>
+
+    <script src="node_modules/material-components-web/dist/material-components-web.js"></script>
+    <script>mdc.autoInit()</script>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+/* Ensure layout covers the entire screen. */
+
+html {
+    height: 100%;
+}
+
+/* Stack toolbar and content on top of each other. */
+
+.body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    min-height: 100%;
+}
+
+/* Place drawer and main next to each other. */
+
+.content {
+    display: flex;
+    flex: 1 1 auto;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.main {
+    padding-left: 16px;
+    margin: 24px;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: left;
+    justify-content: left;
+}
+
+.extra-content-wrapper {
+    padding: 10px;
+}
+
+#extra-wide-content {
+    width: 200vw;
+}
+
+#extra-tall-content {
+    height: 200vh;
+}
+
+.mdc-card {
+    margin: 24px;
+    min-width: 320px;
+    min-height: 320px;
+}
+
+.mdc-card__media {
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-width: 320px;
+    min-height: 320px;
+    background-position: 50% 50%;
+}

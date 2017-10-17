@@ -1,5 +1,6 @@
 import * as express from "express";
 import { join, normalize } from "path";
+import * as exphbs from "express-handlebars";
 
 interface ILocation {
     lng: number;
@@ -21,6 +22,8 @@ class Server {
 
     constructor() {
         this.app = express();
+        this.app.engine("hbs", exphbs({defaultLayout: "main.hbs", layoutsDir: fileFromRoot("views")}));
+        this.app.set("view engine", "hbs");
         this.addRoutes();
     }
 
@@ -43,7 +46,8 @@ class Server {
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.css")));
         this.app.get("/node_modules/material-components-web/dist/material-components-web.js",
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.js")));
-        // this.app.get("/", (req, res) => res.sendFile(fileFromRoot("public", "index.html")));
+        this.app.get("/", (req, res) => res.render("home"));
+        this.app.get("/captured", (req, res) => res.render("captured"));
     }
 
     private addLocation(location: ILocation): void {
