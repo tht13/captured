@@ -1,46 +1,22 @@
-<style>
-    #castle .mdc-card__media {
-        background-image: url("/images/castle.jpg");
-    }
+{{#each media }}
+<div class="mdc-card" id="{{name}}">
+    <section class="mdc-card__primary">
+        <h1 class="mdc-card__title mdc-card__title--large"></h1>
+        <h2 class="mdc-card__subtitle">{{name}}</h2>
+    </section>
+    <section class="mdc-card__media" style="background-image: url({{photo}});"></section>
+</div>
+{{/each}}
+<div class="mdc-form-field">
+    <input type="file" id="photo-file">
+    <label for="photo">Photo</label>
+</div>
+<div class="mdc-form-field">
+    <input type="text" id="photo-name">
+    <label for="name">Name</label>
+</div>
+<button class="mdc-button" id="add-photo-btn">
+    Submit
+</button>
 
-    #coventry .mdc-card__media {
-        background-image: url("/images/coventry_group.jpg");
-    }
-
-    #rugby .mdc-card__media {
-        background-image: url("/images/rugby_group.jpg");
-        transform: rotate(-90deg);
-    }
-
-    #creamed .mdc-card__media {
-        background-image: url("/images/creamed.png");
-    }
-</style>
-<div class="mdc-card" id="castle">
-    <section class="mdc-card__primary">
-        <h1 class="mdc-card__title mdc-card__title--large"></h1>
-        <h2 class="mdc-card__subtitle">Kenilworth</h2>
-    </section>
-    <section class="mdc-card__media"></section>
-</div>
-<div class="mdc-card" id="coventry">
-    <section class="mdc-card__primary">
-        <h1 class="mdc-card__title mdc-card__title--large"></h1>
-        <h2 class="mdc-card__subtitle">Coventry</h2>
-    </section>
-    <section class="mdc-card__media"></section>
-</div>
-<div class="mdc-card" id="creamed">
-    <section class="mdc-card__primary">
-        <h1 class="mdc-card__title mdc-card__title--large"></h1>
-        <h2 class="mdc-card__subtitle">Creamed</h2>
-    </section>
-    <section class="mdc-card__media"></section>
-</div>
-<div class="mdc-card" id="rugby">
-    <section class="mdc-card__primary">
-        <h1 class="mdc-card__title mdc-card__title--large"></h1>
-        <h2 class="mdc-card__subtitle">Rugby</h2>
-    </section>
-    <section class="mdc-card__media"></section>
-</div>
+<script type="module" src="./dist/app/media.bundle.js"></script>

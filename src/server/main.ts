@@ -1,6 +1,8 @@
 import * as express from "express";
 import { join, normalize } from "path";
 import * as exphbs from "express-handlebars";
+import { Mongo } from "./mongo";
+import * as bodyParser from "body-parser";
 
 interface ILocation {
     lng: number;
@@ -28,6 +30,7 @@ class Server {
     }
 
     public addRoutes(): void {
+        this.app.use(bodyParser.json());
         this.app.get("/location/add", (req, res) => {
             const location: ILocation = {
                 lng: req.params.lng,
@@ -46,8 +49,12 @@ class Server {
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.css")));
         this.app.get("/node_modules/material-components-web/dist/material-components-web.js",
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.js")));
-        this.app.get("/", (req, res) => res.render("home"));
+        this.app.get("/", async (req, res) => res.render("home", { media: await Mongo.getMedia() }));
         this.app.get("/captured", (req, res) => res.render("captured"));
+        this.app.post("/media", (req, res) => {
+            Mongo.addMedia(req.body);
+            res.status(200).end();
+        });
     }
 
     private addLocation(location: ILocation): void {
@@ -60,7 +67,6 @@ class Server {
     }
 
     private broadcastLocation(): void {
-
     }
 
     public start(): void {

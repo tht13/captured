@@ -1,4 +1,4 @@
-import { getCurrentLocation, getRandom, offsetLocation, getLatestServerLocation } from "./location.js";
+import { getCurrentLocation, getRandom, offsetLocation, getLatestServerLocation } from "./location";
 
 let map: google.maps.Map;
 async function initMap(): Promise<void> {
