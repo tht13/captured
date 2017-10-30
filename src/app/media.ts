@@ -18,8 +18,13 @@ class ContentUploader {
             ContentUploader.status = 1;
             const photoName: string = (document.getElementById("photo-name") as HTMLInputElement).value;
             const fileSelector: HTMLInputElement = document.getElementById("photo-file") as HTMLInputElement;
-            const photoFileName: string = fileSelector.value;
-            const file: string = await ContentUploader.readFile(fileSelector.files[0]);
+            let fileName: File;
+            if (fileSelector.files !== null && fileSelector.files.length > 0) {
+                fileName = fileSelector.files[0];
+            } else {
+                return;
+            }
+            const file: string = await ContentUploader.readFile(fileName);
             const result: Response = await fetch("/media",
                 {
                     headers: [["Content-Type", "application/json"]],
@@ -40,7 +45,7 @@ class ContentUploader {
         try {
             ContentUploader.status = 1;
             await fetch(`/media/${id}`, { method: "DELETE" });
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
 
@@ -50,10 +55,14 @@ class ContentUploader {
 }
 
 function init(): void {
-    document.getElementById("add-photo-btn").addEventListener("click", ContentUploader.uploadMedia);
+    const addBtn: HTMLButtonElement = document.getElementById("add-photo-btn") as HTMLButtonElement;
+    if (addBtn !== null) {
+        addBtn.addEventListener("click", ContentUploader.uploadMedia);
+    }
     const deleteButtons: HTMLCollectionOf<Element> = document.getElementsByClassName("img-delete");
-    for (let i: number = 0; i< deleteButtons.length; i++) {
-        deleteButtons.item(i).addEventListener("click", () => ContentUploader.deleteItem(deleteButtons.item(i).getAttribute("data-img")));
+    for (let i: number = 0; i < deleteButtons.length; i++) {
+        deleteButtons.item(i).addEventListener("click",
+            () => ContentUploader.deleteItem(deleteButtons.item(i).getAttribute("data-img") as string));
     }
 }
 
