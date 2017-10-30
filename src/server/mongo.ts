@@ -12,7 +12,7 @@ enum Collections {
     "users" = "users"
 }
 export class Mongo {
-    private static readonly LINK: string = "mongodb://localhost:27017";
+    private static readonly LINK: string = "mongodb://mongo:27017";
 
     public static async initDb(): Promise<void> {
         await this.doDbOp(async db => {
