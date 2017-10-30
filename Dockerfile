@@ -2,7 +2,7 @@ FROM node:8-alpine
 
 WORKDIR /usr/app
 
-RUN apk install python
+RUN apk add python
 
 COPY package.json .
 RUN npm install --quiet --force
