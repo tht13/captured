@@ -24,13 +24,15 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.app.engine("hbs", exphbs({defaultLayout: "main.hbs", layoutsDir: fileFromRoot("views")}));
+        this.app.engine("hbs", exphbs({ defaultLayout: "main.hbs", layoutsDir: fileFromRoot("views") }));
         this.app.set("view engine", "hbs");
         this.addRoutes();
+        Mongo.initDb();
     }
 
     public addRoutes(): void {
-        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json({ limit: "20mb" }));
         this.app.get("/location/add", (req, res) => {
             const location: ILocation = {
                 lng: req.params.lng,
@@ -50,9 +52,14 @@ class Server {
         this.app.get("/node_modules/material-components-web/dist/material-components-web.js",
             (req, res) => res.sendFile(fileFromRoot("node_modules/material-components-web/dist/material-components-web.js")));
         this.app.get("/", async (req, res) => res.render("home", { media: await Mongo.getMedia() }));
+        this.app.get("/admin", async (req, res) => res.render("home", { media: await Mongo.getMedia(), admin: true }));
         this.app.get("/captured", (req, res) => res.render("captured"));
-        this.app.post("/media", (req, res) => {
-            Mongo.addMedia(req.body);
+        this.app.post("/media", async (req, res) => {
+            await Mongo.addMedia(req.body);
+            res.status(200).end();
+        });
+        this.app.delete("/media/:id", async (req, res) => {
+            await Mongo.deleteMedia(req.params.id);
             res.status(200).end();
         });
     }

@@ -1,4 +1,5 @@
-import { MongoClient, Db, Collection } from "mongodb";
+import { MongoClient, Db, Collection, ObjectID } from "mongodb";
+import * as sharp from "sharp";
 
 interface IMedia {
     photo: string;
@@ -25,11 +26,15 @@ export class Mongo {
         });
     }
 
-    private static async doDbOp<T>(op: (db: Db) => Promise<T>): Promise<T> {
-        const db: Db = await MongoClient.connect(this.LINK);;
-        const res: T = await op(db);
-        await db.close();
-        return res;
+    private static async doDbOp<T>(op: (db: Db) => Promise<T>): Promise<T | any> {
+        try {
+            const db: Db = await MongoClient.connect(this.LINK);
+            const res: T = await op(db);
+            await db.close();
+            return res;
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     public static async getMedia(): Promise<IMedia[]> {
@@ -42,7 +47,23 @@ export class Mongo {
     public static async addMedia(media: IMedia): Promise<void> {
         return this.doDbOp(async db => {
             const col: Collection = db.collection(Collections.media);
-            await col.insertOne(media);
+            media.photo = await this.convertImage(media.photo);
+            return col.insertOne(media);
+        });
+    }
+
+    private static async convertImage(data: string): Promise<string> {
+        const imgMatch: RegExpMatchArray = data.match(/^(data:[A-Za-z-+\/]+;base64,)(.+)$/) as RegExpMatchArray;
+        const prefix: string = imgMatch[1];
+        const img: string = imgMatch[2];
+        const buf: Buffer = await sharp(new Buffer(img, "base64")).webp().toBuffer();
+        return prefix + buf.toString("base64");
+    }
+
+    public static async deleteMedia(_id: string): Promise<void> {
+        return this.doDbOp(async db => {
+            const col: Collection = db.collection(Collections.media);
+            return col.remove({ _id: new ObjectID(_id) });
         });
     }
 }

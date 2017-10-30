@@ -12,6 +12,7 @@
         },
         {
             "type": "npm",
+            "identifier": "build",
             "script": "build",
             "problemMatcher": [
                 "$tsc"

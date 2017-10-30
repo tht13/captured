@@ -45,16 +45,16 @@ html {
     height: 200vh;
 }
 
-.mdc-card {
+.card {
     margin: 24px;
-    min-width: 320px;
-    min-height: 320px;
+    min-width: 20rem;
+    min-height: 25rem;
 }
 
-.mdc-card__media {
-    background-size: cover;
+.card .card-img-top {
+    background-size: contain;
     background-repeat: no-repeat;
-    min-width: 320px;
-    min-height: 320px;
+    min-width: 20rem;
+    min-height: 20rem;
     background-position: 50% 50%;
 }
