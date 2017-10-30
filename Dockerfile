@@ -1,8 +1,6 @@
-FROM node:8-alpine
+FROM node:8
 
 WORKDIR /usr/app
-
-RUN apk update && apk add python
 
 COPY package.json .
 RUN npm install --quiet --force
