@@ -57,7 +57,7 @@ export class Mongo {
         const prefix: string = imgMatch[1];
         const img: string = imgMatch[2];
         const buf: Buffer = await sharp(new Buffer(img, "base64")).webp().toBuffer();
-        return prefix + buf.toString("base64");
+        return "data:image/webp;base64," + buf.toString("base64");
     }
 
     public static async deleteMedia(_id: string): Promise<void> {
