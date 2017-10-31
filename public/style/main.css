@@ -46,15 +46,12 @@ html {
 }
 
 .card {
-    margin: 24px;
-    min-width: 20rem;
     min-height: 25rem;
 }
 
 .card .card-img-top {
     background-size: contain;
     background-repeat: no-repeat;
-    min-width: 20rem;
     min-height: 20rem;
     background-position: 50% 50%;
 }

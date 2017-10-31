@@ -7,15 +7,17 @@
     </div>
     <div class="p-2 d-flex flex-wrap">
         {{#each media }}
-        <div class="card" id="{{_id}}">
-            <img class="card-img-top" style="background-image: url({{photo}});">
-            <div class="card-body">
-                {{#if ../admin}}
-                <button type="button" class="float-right btn btn-outline-danger img-delete" data-img="{{_id}}">
-                    <i class="material-icons">delete</i>
-                </button>
-                {{/if}}
-                <p class="card-text">{{name}}</p>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+            <div class="m-2 card" id="{{_id}}">
+                <img class="card-img-top mw-100" src="{{photo}}" />
+                <div class="card-body">
+                    {{#if ../admin}}
+                    <button type="button" class="float-right btn btn-outline-danger img-delete" data-img="{{_id}}">
+                        <i class="material-icons">delete</i>
+                    </button>
+                    {{/if}}
+                    <p class="card-text">{{name}}</p>
+                </div>
             </div>
         </div>
         {{/each}}
